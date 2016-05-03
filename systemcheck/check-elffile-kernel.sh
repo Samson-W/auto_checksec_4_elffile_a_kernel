@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ELFPATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-CHECKSEC="./checksec"
+CURDIR=`pwd`
+CHECKSEC="${CURDIR}/checksec"
 
 check-security-update()
 {
