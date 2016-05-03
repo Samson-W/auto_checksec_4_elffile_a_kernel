@@ -2,7 +2,7 @@
 
 ELFPATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 CURDIR=`pwd`
-CHECKSEC="${CURDIR}/checksec"
+CHECKSEC="/tmp/systemcheck/checksec"
 
 check-security-update()
 {
