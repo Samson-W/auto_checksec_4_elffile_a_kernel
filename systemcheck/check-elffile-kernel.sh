@@ -1,8 +1,9 @@
 #!/bin/bash
 
 ELFPATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-CURDIR=`pwd`
-CHECKSEC="/tmp/systemcheck/checksec"
+CHECKSEC="./checksec"
+ELFFILELISTFILE="./dde_exec_check.list"
+ELFCHECKOPTION=$1
 
 check-security-update()
 {
@@ -44,17 +45,28 @@ check-kernel-chklist()
   echo "====================================================Files with suid or sgid flags list end====================================="
 }
 
-echo "Usage: ./check-elffile-kernel.sh "
+echo "Usage: ./check-elffile-kernel.sh"
 
 # check all elf file of system 
 checkallelffile()
 {
   echo "-----------------------------------------------------------checkallelffile----------------------------------------------------------"
-  for p in `echo $ELFPATH | tr : ' '`; 
-  do 
-    echo "Check executable dir: $p"
-    $CHECKSEC -d $p
-  done
+  if [ "$ELFCHECKOPTION" != "all" ]; then
+    while read file
+    do
+      if [ -f $file ]; then
+        $CHECKSEC -f $file
+      else
+        echo "$file not exist!"
+      fi
+    done < $ELFFILELISTFILE
+  else 
+    for p in `echo $ELFPATH | tr : ' '`; 
+    do 
+      echo "Check executable dir: $p"
+      $CHECKSEC -d $p
+    done
+  fi
 }
 echo "check security update:"
 check-security-update

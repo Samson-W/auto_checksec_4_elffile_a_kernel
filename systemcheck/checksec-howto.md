@@ -4,10 +4,17 @@
 #### 主要实现的安全检测： 
 主要进行安全更新包的检查、elf可执行程序的Pax安全特性是否开启、内核是否开启了SYN洪水攻击防护、列出不属于任何用户或组的孤儿文件、列出无用的用户名、列出密码过期的用户、列出设置了suid或sgid的文件；  
 
+目前分为两种扫描，一种是系统中默认的PATH(/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games)路径中的所有应用进行扫描，另一种是仅对dde的可执行程序及库进行扫描。
+
 #### 使用方法  
 此脚本程序所在目录中必须存在checksec脚本，此脚本程序使用方法为： 
 chmod +x check-elffile-kernel.sh 
+
+仅对dde的可执行程序及库进行扫描：
 sudo ./check-elffile-kernel.sh 
+
+对系统中默认的PATH路径中的所有应用进行扫描：
+sudo ./check-elffile-kernel.sh all 
 
 有关此脚本中使用checksec脚本所使用的方法及修复详情请参看systemcheck目录中的checksec-howto.md文档；
 
