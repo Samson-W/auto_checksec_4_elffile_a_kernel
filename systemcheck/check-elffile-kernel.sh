@@ -92,5 +92,5 @@ echo "============================================================Check kernel==
 if [ -f $CHECKSEC ]; then
   $CHECKSEC -k
 else
-  $CHECKSEC -k
+  $CHECKSEC_CI -k
 fi
