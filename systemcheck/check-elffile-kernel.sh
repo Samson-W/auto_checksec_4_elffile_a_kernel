@@ -3,6 +3,8 @@
 ELFPATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 CHECKSEC="./checksec"
 ELFFILELISTFILE="./dde_exec_check.list"
+CHECKSEC_CI="/tmp/systemcheck/checksec"
+ELFFILELISTFILE_CI="/tmp/systemcheck/dde_exec_check.list"
 ELFCHECKOPTION=$1
 
 check-security-update()
@@ -50,12 +52,21 @@ echo "Usage: ./check-elffile-kernel.sh"
 # check all elf file of system 
 checkallelffile()
 {
+  if [ -f $ELFFILELISTFILE ]; then
+    :
+  else
+    ELFFILELISTFILE=$ELFFILELISTFILE_CI
+  fi
   echo "-----------------------------------------------------------checkallelffile----------------------------------------------------------"
   if [ "$ELFCHECKOPTION" != "all" ]; then
     while read file
     do
       if [ -f $file ]; then
-        $CHECKSEC -f $file
+        if [ -f $CHECKSEC ]; then
+          $CHECKSEC -f $file
+        else
+          $CHECKSEC_CI -f $file
+        fi
       else
         echo "$file not exist!"
       fi
@@ -64,7 +75,11 @@ checkallelffile()
     for p in `echo $ELFPATH | tr : ' '`; 
     do 
       echo "Check executable dir: $p"
-      $CHECKSEC -d $p
+      if [ -f $CHECKSEC ]; then
+        $CHECKSEC -d $p
+      else
+        $CHECKSEC_CI -d $p
+      fi
     done
   fi
 }
@@ -74,4 +89,8 @@ checkallelffile
 check-kernel-chklist
 # check kernel
 echo "============================================================Check kernel============================================================== "
-$CHECKSEC -k
+if [ -f $CHECKSEC ]; then
+  $CHECKSEC -k
+else
+  $CHECKSEC -k
+fi
