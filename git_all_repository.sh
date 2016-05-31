@@ -42,7 +42,7 @@ do
   
   if [ ${C_file_count} -gt 0 -o ${Cplus_file_count} -gt 0 ];then
     echo "-----------------------C/C++ static analysis start----------------------"
-    flawfinder ${gitreponame}
+    flawfinder ${gitreponame} > "`date +%F`_${gitreponame}_SA.log" 2>&1
     echo "-----------------------C/C++ static analysis end  ----------------------"
   fi
 
@@ -57,7 +57,7 @@ do
   go_file_count=`find ${gitreponame} -name "*.go" | wc -l`
   if [ ${go_file_count} -gt 0 ];then
     echo "--------------------------go  static analysis start----------------------"
-    go tool vet -all ${gitreponame}
+    go tool vet -all ${gitreponame} >>  "`date +%F`_${gitreponame}_SA.log" 2>&1
     echo "--------------------------go  static analysis end  ----------------------"
   fi
 
