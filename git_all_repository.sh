@@ -24,7 +24,8 @@ for ((j=1;j<=${all_repo_count};j++))
 do
   gitreponame=`sed -n "${j}p" ${ALL_GIT_REPO_FILE}`
   # if repo is exist, git pull for release of up-to-date; else git clone to local.
-  if [ -d gitreponame ]; then
+  if [ -d ${gitreponame} ]; then
+     cd ${gitreponame}
      git pull
   else
      gitaddrs="https://github.com${gitreponame}.git"  
