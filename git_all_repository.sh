@@ -14,7 +14,7 @@ do
 done
 
 # get all repo name write to file.
-grep repo-list-name -A 1 page* | sed '/<h3/d'| sed '/--/d' | sed 's/page.-//g' | sed 's/<a href="//g' | sed  's/[[:space:]]//g' |sed 's/"itemprop=.namecodeRepository.>//g' > "${ALL_GIT_REPO_FILE}"
+grep repo-list-name -A 1 page* | sed '/<h3/d'| sed '/--/d' | sed 's/page.-//g' | sed 's/<a href="//g' | sed  's/[[:space:]]//g' |sed 's/"itemprop=.namecodeRepository.>//g' | sed 's/\///g' > "${ALL_GIT_REPO_FILE}"
 
 all_repo_count=`cat ${ALL_GIT_REPO_FILE} | wc -l`
 echo "repo count is ${all_repo_count}"
@@ -28,7 +28,7 @@ do
      cd ${gitreponame}
      git pull
   else
-     gitaddrs="https://github.com${gitreponame}.git"  
+     gitaddrs="https://github.com/${gitreponame}.git"  
      git clone ${gitaddrs}
   fi
   # Static analysis begin
