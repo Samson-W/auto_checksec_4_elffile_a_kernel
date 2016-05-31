@@ -28,6 +28,7 @@ do
   if [ -d ${gitreponame} ]; then
      cd ${gitreponame}
      git pull
+     cd ..
   else
      gitaddrs="https://github.com/${gitrepopathname}.git"  
      git clone ${gitaddrs}
