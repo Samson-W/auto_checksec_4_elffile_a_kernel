@@ -3,8 +3,10 @@
 # now github max page is 4, we need to be modified according to the latest situation.
 MAX_PAGE_COUNT=4
 ALL_GIT_REPO_FILE="allgitrepo.tmp"
+STATIC_ANALYSIS_LOG_DIR="static_analysis_log"
 j=1
 
+mkdir -p ${STATIC_ANALYSIS_LOG_DIR}
 mkdir -p deepin_all_repo
 cd deepin_all_repo
 #wget all page
@@ -39,11 +41,11 @@ do
   # for c/c++
   C_file_count=`find ${gitreponame} -name "*.c" | wc -l`
   Cplus_file_count=`find ${gitreponame} -name "*.cpp" | wc -l`
-  
+  log_filename="../${STATIC_ANALYSIS_LOG_DIR}/`date +%F`_${gitreponame}_SA.log"
   if [ ${C_file_count} -gt 0 -o ${Cplus_file_count} -gt 0 ];then
-    echo "-----------------------C/C++ static analysis start----------------------"
-    flawfinder ${gitreponame} > "`date +%F`_${gitreponame}_SA.log" 2>&1
-    echo "-----------------------C/C++ static analysis end  ----------------------"
+    echo "-----------------------C/C++ static analysis start----------------------" >> ${log_filename}
+    flawfinder ${gitreponame} >> ${log_filename} 2>&1
+    echo "-----------------------C/C++ static analysis end  ----------------------" >> ${log_filename}
   fi
 
   # for python
@@ -56,9 +58,9 @@ do
   # for go
   go_file_count=`find ${gitreponame} -name "*.go" | wc -l`
   if [ ${go_file_count} -gt 0 ];then
-    echo "--------------------------go  static analysis start----------------------"
-    go tool vet -all ${gitreponame} >>  "`date +%F`_${gitreponame}_SA.log" 2>&1
-    echo "--------------------------go  static analysis end  ----------------------"
+    echo "--------------------------go  static analysis start----------------------" >> ${log_filename}
+    go tool vet -all ${gitreponame} >> ${log_filename} 2>&1
+    echo "--------------------------go  static analysis end  ----------------------" >> ${log_filename}
   fi
 
   # for javasecript
