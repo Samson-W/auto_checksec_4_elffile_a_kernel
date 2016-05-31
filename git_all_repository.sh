@@ -38,7 +38,7 @@ do
   # Finding the appropriate language file exists, using the corresponding static code checking tool.
   # for c/c++
   C_file_count=`find ${gitreponame} -name "*.c" | wc -l`
-  Cplus_file_count=`find ${gitreponame=} -name "*.cpp" | wc -l`
+  Cplus_file_count=`find ${gitreponame} -name "*.cpp" | wc -l`
   
   if [ ${C_file_count} -gt 0 -o ${Cplus_file_count} -gt 0 ];then
     echo "-----------------------C/C++ static analysis start----------------------"
@@ -47,22 +47,22 @@ do
   fi
 
   # for python
-  python_file_count=`find ${gitreponame=} -name "*.py" | wc -l`
+  python_file_count=`find ${gitreponame} -name "*.py" | wc -l`
   if [ ${python_file_count} -gt 0 ];then
     echo "-----------------------python static analysis start----------------------"
     
     echo "-----------------------python static analysis end  ----------------------"
   fi
   # for go
-  go_file_count=`find ${gitreponame=} -name "*.go" | wc -l`
+  go_file_count=`find ${gitreponame} -name "*.go" | wc -l`
   if [ ${go_file_count} -gt 0 ];then
     echo "--------------------------go  static analysis start----------------------"
-    go tool vet -all
+    go tool vet -all ${gitreponame}
     echo "--------------------------go  static analysis end  ----------------------"
   fi
 
   # for javasecript
-  #js_file_count=`find ${gitreponame=} -name "*.js" | wc -l`
+  #js_file_count=`find ${gitreponame} -name "*.js" | wc -l`
   #if [ ${python_file_count} -gt 0 ];then
   #  echo "---------------------javsecript static analysis start--------------------"
   #  
