@@ -14,7 +14,7 @@ do
 done
 
 # get all repo name write to file.
-grep repo-list-name -A 1 page* | sed '/<h3/d'| sed '/--/d' | sed 's/page.-//g' | sed 's/<a href="//g' | sed  's/[[:space:]]//g' |sed 's/"itemprop=.namecodeRepository.>//g' | sed 's/\///g' > "${ALL_GIT_REPO_FILE}"
+grep repo-list-name -A 1 page* | sed '/<h3/d'| sed '/--/d' | sed 's/page.-//g' | sed 's/<a href="//g' | sed  's/[[:space:]]//g' |sed 's/"itemprop=.namecodeRepository.>//g' | sed 's/^\///g'  > "${ALL_GIT_REPO_FILE}"
 
 all_repo_count=`cat ${ALL_GIT_REPO_FILE} | wc -l`
 echo "repo count is ${all_repo_count}"
@@ -22,13 +22,14 @@ echo "repo count is ${all_repo_count}"
 
 for ((j=1;j<=${all_repo_count};j++))
 do
-  gitreponame=`sed -n "${j}p" ${ALL_GIT_REPO_FILE}`
+  gitrepopathname=`sed -n "${j}p" ${ALL_GIT_REPO_FILE}`
   # if repo is exist, git pull for release of up-to-date; else git clone to local.
+  gitreponame=`echo ${gitrepopathname} | sed -e 's/[a-z]*\///g'`
   if [ -d ${gitreponame} ]; then
      cd ${gitreponame}
      git pull
   else
-     gitaddrs="https://github.com/${gitreponame}.git"  
+     gitaddrs="https://github.com/${gitrepopathname}.git"  
      git clone ${gitaddrs}
   fi
   # Static analysis begin
