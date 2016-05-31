@@ -3,7 +3,7 @@
 # now github max page is 4, we need to be modified according to the latest situation.
 MAX_PAGE_COUNT=4
 ALL_GIT_REPO_FILE="allgitrepo.tmp"
-STATIC_ANALYSIS_LOG_DIR="static_analysis_log"
+STATIC_ANALYSIS_LOG_DIR="`date +%F`_static_analysis_log"
 j=1
 
 mkdir -p ${STATIC_ANALYSIS_LOG_DIR}
@@ -41,7 +41,7 @@ do
   # for c/c++
   C_file_count=`find ${gitreponame} -name "*.c" | wc -l`
   Cplus_file_count=`find ${gitreponame} -name "*.cpp" | wc -l`
-  log_filename="../${STATIC_ANALYSIS_LOG_DIR}/`date +%F`_${gitreponame}_SA.log"
+  log_filename="../${STATIC_ANALYSIS_LOG_DIR}/${gitreponame}_SA.log"
   if [ ${C_file_count} -gt 0 -o ${Cplus_file_count} -gt 0 ];then
     echo "-----------------------C/C++ static analysis start----------------------" >> ${log_filename}
     flawfinder ${gitreponame} >> ${log_filename} 2>&1
