@@ -69,7 +69,7 @@ do
   #  echo "---------------------javasecript static analysis end---------------------"
   #fi
   
-  if [$C_file_count -eq 0 -a $Cplus_file_count -eq 0 -a $python_file_count -eq 0 -a $go_file_count -eq 0 ]; then
+  if [ $C_file_count -eq 0 -a $Cplus_file_count -eq 0 -a $python_file_count -eq 0 -a $go_file_count -eq 0 ]; then
     echo "---------------------------This repo not is c/c++,python,go program.----------------------------------"
   fi  
 
